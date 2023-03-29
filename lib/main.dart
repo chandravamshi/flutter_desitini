@@ -29,6 +29,12 @@ class StoryPage extends StatefulWidget {
 }
 
 class _StoryPageState extends State<StoryPage> {
+  void setNext(int choice) {
+    setState(() {
+      storyBrain.nextStory(choice);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,22 +59,29 @@ class _StoryPageState extends State<StoryPage> {
                 child: TextButton(
                     style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(Colors.red)),
-                    onPressed: () {},
-                    child: const Text(
-                      'Choice 1',
-                      style: TextStyle(fontSize: 20.0),
+                    onPressed: () {
+                      setNext(1);
+                    },
+                    child: Text(
+                      storyBrain.getChoice1(),
+                      style: const TextStyle(fontSize: 20.0),
                     ))),
             const SizedBox(
               height: 20.0,
             ),
             Expanded(
               flex: 2,
-              child: TextButton(
-                  style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.green)),
-                  onPressed: () {},
-                  child:
-                      const Text(style: TextStyle(fontSize: 20.0), 'Choice 2')),
+              child: Visibility(
+                visible: storyBrain.buttonShouldBeVisible(),
+                child: TextButton(
+                    style: const ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Colors.green)),
+                    onPressed: () {
+                      setNext(2);
+                    },
+                    child: Text(storyBrain.getChoice2(),
+                        style: const TextStyle(fontSize: 20.0))),
+              ),
             )
           ],
         )),
